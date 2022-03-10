@@ -26,7 +26,7 @@ public class MainTest {
         this.userGraph.moveIn("REX");
 
 
-        UserGraph.printUserGraph();
+        userGraph.printUserGraph();
 
         //use case 1
         new Transaction().transactionSpend("WOODY", "ANDY", 1000);
@@ -48,10 +48,10 @@ public class MainTest {
         new Transaction().addTransaction( "A1","A2",5000);*/
 
 
-        UserGraph.printUserGraph();
+        userGraph.printUserGraph();
         Map user = new HashMap<>();
         user.putIfAbsent("ANDY", "ANDY");
-        Assert.assertEquals(0, Integer.parseInt(UserGraph.getUsersGraph().get(user).toString()));
+        Assert.assertEquals(0, Integer.parseInt(userGraph.getUsersGraph().get(user).toString()));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class MainTest {
 
         Map user = new HashMap<>();
         user.putIfAbsent("ANDY", "ANDY");
-        Assert.assertEquals(0, Integer.parseInt(UserGraph.getUsersGraph().get(user).toString()));
+        Assert.assertEquals(0, Integer.parseInt(userGraph.getUsersGraph().get(user).toString()));
 
     }
 
@@ -120,7 +120,7 @@ public class MainTest {
 
         Map user = new HashMap<>();
         user.putIfAbsent("ANDY", "ANDY");
-        Assert.assertEquals(0, Integer.parseInt(UserGraph.getUsersGraph().get(user).toString()));
+        Assert.assertEquals(0, Integer.parseInt(userGraph.getUsersGraph().get(user).toString()));
 
     }
 

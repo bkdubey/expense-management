@@ -7,6 +7,7 @@ import com.example.geektrust.user.transaction.Transaction;
 public class CommandParser {
 
     UserGraph userGraph = new UserGraph();
+    Transaction transaction = new Transaction(userGraph);
     String[] commandParam;
 
     public void parse(String command) {
@@ -37,7 +38,7 @@ public class CommandParser {
     private void processDueCommand() {
         String member = commandParam[1];
         if (this.isMemberExist(member)) {
-            new Transaction().getDues(member);
+            this.transaction.getDues(member);
         } else {
             Logger.memberNotFound();
         }
@@ -48,7 +49,7 @@ public class CommandParser {
         String givenBy = commandParam[2];
 
         if (this.isMemberExist(owes) && isMemberExist(givenBy)) {
-            Transaction.clearDue(owes, givenBy, Integer.parseInt(commandParam[3]));
+            this.transaction.clearDue(owes, givenBy, Integer.parseInt(commandParam[3]));
         } else {
             Logger.memberNotFound();
         }
@@ -62,7 +63,7 @@ public class CommandParser {
     private void processMoveOutCommand() {
         String member = commandParam[1];
         if (this.isMemberExist(member)) {
-            this.userGraph.moveOut(commandParam[1]);
+            this.userGraph.moveOut(commandParam[1], transaction);
         } else {
             Logger.memberNotFound();
         }
@@ -74,14 +75,14 @@ public class CommandParser {
         int spendParamSize = spendParam.length;
         int amountToShare = Integer.parseInt(spendParam[1]) / (spendParamSize - 2);
         String givenByUser = spendParam[2];
-        boolean isValidUser = UserGraph.getCurrentMemebers().contains(givenByUser);
+        boolean isValidUser = userGraph.getCurrentMemebers().contains(givenByUser);
 
         for (int index = 3; index < spendParamSize; index++) {
             String owe = spendParam[index];
-            if (!UserGraph.getCurrentMemebers().contains(owe)) {
+            if (!userGraph.getCurrentMemebers().contains(owe)) {
                 isValidUser = false;
             } else {
-                new Transaction().transactionSpend(spendParam[index], givenByUser, amountToShare);
+                this.transaction.transactionSpend(spendParam[index], givenByUser, amountToShare);
 
             }
         }
@@ -93,6 +94,6 @@ public class CommandParser {
     }
 
     private boolean isMemberExist(String member) {
-        return UserGraph.getCurrentMemebers().contains(member);
+        return userGraph.getCurrentMemebers().contains(member);
     }
 }

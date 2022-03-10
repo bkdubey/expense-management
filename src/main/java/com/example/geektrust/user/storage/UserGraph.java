@@ -5,34 +5,34 @@ import com.example.geektrust.utility.Logger;
 
 import java.util.*;
 
-public class UserGraph implements Resident {
+public class UserGraph<Type1> {
 
     private static final int HOUSE_MAX_CAPACITY = 3;
-    private static List<String> currentMemebers  = new LinkedList<>();
-    private static Map<Map<String, String>, Integer> usersGraph = new HashMap<>();
+    private List<String> currentMemebers = new LinkedList<>();
 
-
-    public static Map<Map<String, String>, Integer> getUsersGraph() {
-        return usersGraph;
-    }
-
-    public static void setUsersGraph(Map<Map<String, String>, Integer> usersGraph) {
-        UserGraph.usersGraph = usersGraph;
-    }
+    private Map<Map<String, String>, Integer> usersGraph = new HashMap<>();
 
     public static int getHouseMaxCapacity() {
         return HOUSE_MAX_CAPACITY;
     }
 
-    public static List<String> getCurrentMemebers() {
+    public List<String> getCurrentMemebers() {
         return currentMemebers;
     }
 
-    public static void printUserGraph() {
+    public Map<Map<String, String>, Integer> getUsersGraph() {
+        return usersGraph;
+    }
+
+    public void setUsersGraph(Map<Map<String, String>, Integer> usersGraph) {
+        this.usersGraph = usersGraph;
+    }
+
+    public void printUserGraph() {
 
         for (Map.Entry<Map<String, String>, Integer> set : usersGraph.entrySet()) {
             for (Map.Entry<String, String> user : set.getKey().entrySet()) {
-                Map<String,String> map = new HashMap<>();
+                Map<String, String> map = new HashMap<>();
                 map.put(user.getKey(), user.getValue());
                 Logger.log(user.getKey() + "," + user.getValue() + " = " + usersGraph.get(map));
             }
@@ -42,7 +42,6 @@ public class UserGraph implements Resident {
     }
 
 
-    @Override
     public void moveIn(String memberToAdd) {
         if (currentMemebers.size() >= HOUSE_MAX_CAPACITY) {
             Logger.houseful();
@@ -53,10 +52,10 @@ public class UserGraph implements Resident {
         }
     }
 
-    @Override
-    public void moveOut(String memberToExit) {
+
+    public void moveOut(String memberToExit, Transaction transaction) {
         if (currentMemebers.contains(memberToExit)) {
-            if (Transaction.isEligibleForClearance(memberToExit)) {
+            if (transaction.isEligibleForClearance(memberToExit)) {
                 currentMemebers.remove(memberToExit);
                 reInitGraph(memberToExit);
                 Logger.success();
@@ -86,7 +85,7 @@ public class UserGraph implements Resident {
             Map.Entry<Map<String, String>, Integer> set = it.next();
             for (Iterator<Map.Entry<String, String>> iter = set.getKey().entrySet().iterator(); iter.hasNext(); ) {
                 Map.Entry<String, String> user = iter.next();
-                Map<String,String> map = new HashMap<>();
+                Map<String, String> map = new HashMap<>();
                 map.put(user.getKey(), user.getValue());
                 if (user.getKey().contains(member) || user.getValue().contains(member)) {
                     it.remove();

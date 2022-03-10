@@ -12,7 +12,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String fileName = args[0]; //fileName = "D:\\L̥project\\contest\\intuit\\java-maven-starter-kit-master\\sample_input\\input4.txt";
+        String fileName = args[0]; fileName = "D:\\L̥project\\contest\\intuit\\java-maven-starter-kit-master\\sample_input\\input1.txt";
+        fileName = "D:\\project\\contest\\intuit\\java-maven-starter-kit-master\\sample_input\\input1.txt";
 
         new Main().processInputFile(fileName);
 
