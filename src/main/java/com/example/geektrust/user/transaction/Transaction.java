@@ -9,12 +9,14 @@ public class Transaction {
 
     private static final int REBALANCE_FACTOR = 3;
     static Map<String, Integer> balanceTransactionResult = new LinkedHashMap<>();
+
+    public void setUserGraph(UserGraph userGraph) {
+        this.userGraph = userGraph;
+    }
+
     UserGraph userGraph;
 
 
-    public Transaction(UserGraph userGraph) {
-        this.userGraph = userGraph;
-    }
 
     public Transaction() {
     }

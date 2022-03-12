@@ -5,12 +5,20 @@ import com.example.geektrust.utility.Logger;
 
 import java.util.*;
 
-public class UserGraph<Type1> {
+public class UserGraph  implements Resident{
 
     private static final int HOUSE_MAX_CAPACITY = 3;
     private List<String> currentMemebers = new LinkedList<>();
 
     private Map<Map<String, String>, Integer> usersGraph = new HashMap<>();
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
+
+    private Transaction transaction ;
+
+
 
     public static int getHouseMaxCapacity() {
         return HOUSE_MAX_CAPACITY;
@@ -41,7 +49,7 @@ public class UserGraph<Type1> {
         Logger.log("size of usergraph -- " + usersGraph.size());
     }
 
-
+    @Override
     public void moveIn(String memberToAdd) {
         if (currentMemebers.size() >= HOUSE_MAX_CAPACITY) {
             Logger.houseful();
@@ -52,10 +60,10 @@ public class UserGraph<Type1> {
         }
     }
 
-
-    public void moveOut(String memberToExit, Transaction transaction) {
+    @Override
+    public void moveOut(String memberToExit) {
         if (currentMemebers.contains(memberToExit)) {
-            if (transaction.isEligibleForClearance(memberToExit)) {
+            if (this.transaction.isEligibleForClearance(memberToExit)) {
                 currentMemebers.remove(memberToExit);
                 reInitGraph(memberToExit);
                 Logger.success();

@@ -7,8 +7,14 @@ import com.example.geektrust.user.transaction.Transaction;
 public class CommandParser {
 
     UserGraph userGraph = new UserGraph();
-    Transaction transaction = new Transaction(userGraph);
+    Transaction transaction = new Transaction();
     String[] commandParam;
+
+    public CommandParser() {
+        this.transaction.setUserGraph(userGraph);
+        this.userGraph.setTransaction(transaction);
+    }
+
 
     public void parse(String command) {
         this.commandParam = command.split(" ");
@@ -63,7 +69,7 @@ public class CommandParser {
     private void processMoveOutCommand() {
         String member = commandParam[1];
         if (this.isMemberExist(member)) {
-            this.userGraph.moveOut(commandParam[1], transaction);
+            this.userGraph.moveOut(commandParam[1]);
         } else {
             Logger.memberNotFound();
         }
