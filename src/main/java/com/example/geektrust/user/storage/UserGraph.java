@@ -5,23 +5,20 @@ import com.example.geektrust.utility.Logger;
 
 import java.util.*;
 
-public class UserGraph  implements Resident{
+public class UserGraph implements Resident {
 
     private static final int HOUSE_MAX_CAPACITY = 3;
     private List<String> currentMemebers = new LinkedList<>();
 
     private Map<Map<String, String>, Integer> usersGraph = new HashMap<>();
-
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
-    }
-
-    private Transaction transaction ;
-
-
+    private Transaction transaction;
 
     public static int getHouseMaxCapacity() {
         return HOUSE_MAX_CAPACITY;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
     }
 
     public List<String> getCurrentMemebers() {

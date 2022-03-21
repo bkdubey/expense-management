@@ -9,17 +9,7 @@ public class Transaction {
 
     private static final int REBALANCE_FACTOR = 3;
     static Map<String, Integer> balanceTransactionResult = new LinkedHashMap<>();
-
-    public void setUserGraph(UserGraph userGraph) {
-        this.userGraph = userGraph;
-    }
-
     UserGraph userGraph;
-
-
-
-    public Transaction() {
-    }
 
     private static LinkedList<String> getMinTransactions() {
 
@@ -35,6 +25,10 @@ public class Transaction {
                 .forEach(e -> sortedTransaction.add(String.valueOf(e.getKey())));
 
         return sortedTransaction;
+    }
+
+    public void setUserGraph(UserGraph userGraph) {
+        this.userGraph = userGraph;
     }
 
     // settle out , transaction for Nth/3rd  person to zero
@@ -58,11 +52,11 @@ public class Transaction {
     public void clearDue(String owes, String givenBy, int amount) {
         Map<String, String> clearDue = new HashMap<>();
         clearDue.put(owes, givenBy);
-        if (amount > (Integer) this.userGraph.getUsersGraph().get(clearDue)) {
+        if (amount > this.userGraph.getUsersGraph().get(clearDue)) {
             Logger.incorrectPayment();
         } else {
-            this.userGraph.getUsersGraph().put(clearDue, (Integer) this.userGraph.getUsersGraph().get(clearDue) - amount);
-            Logger.log((Integer) this.userGraph.getUsersGraph().get(clearDue));
+            this.userGraph.getUsersGraph().put(clearDue, this.userGraph.getUsersGraph().get(clearDue) - amount);
+            Logger.log(this.userGraph.getUsersGraph().get(clearDue));
         }
     }
 
@@ -81,7 +75,7 @@ public class Transaction {
                 reversePair.put(user.getValue(), user.getKey());
 
                 if ((user.getKey().equals(member) || user.getValue().equals(member))) {
-                    if ((Integer) this.userGraph.getUsersGraph().get(userPair) == 0 && (Integer) this.userGraph.getUsersGraph().get(reversePair) == 0) {
+                    if (this.userGraph.getUsersGraph().get(userPair) == 0 && this.userGraph.getUsersGraph().get(reversePair) == 0) {
                         isCleared = true;
                     } else return false;
                 }
@@ -108,8 +102,8 @@ public class Transaction {
                 reversePair.put(user.getValue(), user.getKey());
 
                 int result = balanceTransactionResult.getOrDefault(user.getKey(), 0)
-                        + (Integer) this.userGraph.getUsersGraph().getOrDefault(userPair, 0) -
-                        (Integer) this.userGraph.getUsersGraph().getOrDefault(reversePair, 0);
+                        + this.userGraph.getUsersGraph().getOrDefault(userPair, 0) -
+                        this.userGraph.getUsersGraph().getOrDefault(reversePair, 0);
                 balanceTransactionResult.put(user.getKey(), result);
 
             }
@@ -150,8 +144,8 @@ public class Transaction {
             //handling case if link is already available b/w owe & giver - adjust balance
             Map<String, String> reverseUser = new HashMap<>();
             reverseUser.put(givenBy, owes);
-            int existingAmount = (Integer) this.userGraph.getUsersGraph().getOrDefault(user, 0);
-            int reverseAmount = (Integer) this.userGraph.getUsersGraph().getOrDefault(reverseUser, 0);
+            int existingAmount = this.userGraph.getUsersGraph().getOrDefault(user, 0);
+            int reverseAmount = this.userGraph.getUsersGraph().getOrDefault(reverseUser, 0);
             if (reverseAmount != 0 && reverseAmount < existingAmount) {
 
                 amount = existingAmount - reverseAmount;
@@ -184,7 +178,7 @@ public class Transaction {
                 Map<String, String> userPair = new HashMap<>();
                 userPair.put(user.getKey(), user.getValue());
 
-                if ((Integer) this.userGraph.getUsersGraph().get(userPair) > 0) {
+                if (this.userGraph.getUsersGraph().get(userPair) > 0) {
                     rebalanceCount++;
                 }
 
@@ -214,7 +208,7 @@ public class Transaction {
 
                 if ((user.getKey().equals(member)) && !user.getKey().equals(user.getValue())) {
 
-                    result.putIfAbsent(user.getValue(), (Integer) this.userGraph.getUsersGraph().get(userPair));
+                    result.putIfAbsent(user.getValue(), this.userGraph.getUsersGraph().get(userPair));
                 }
 
 
